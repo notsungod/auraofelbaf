@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xbel version="1.0"
+      xmlns:bookmark="http://www.freedesktop.org/standards/desktop-bookmarks"
+      xmlns:mime="http://www.freedesktop.org/standards/shared-mime-info"
+>
+  <bookmark href="file:///home/user/Desktop" added="2024-04-09T14:50:04.275400Z" modified="2024-04-09T14:50:04.275405Z" visited="2024-04-09T14:50:04.275401Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="inode/directory"/>
+        <bookmark:applications>
+          <bookmark:application name="Thunar" exec="&apos;thunar %u&apos;" modified="2024-04-09T14:50:04.275403Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="trash:///" added="2024-04-09T14:50:05.225065Z" modified="2024-04-09T14:50:05.982789Z" visited="2024-04-09T14:50:05.225066Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/octet-stream"/>
+        <bookmark:applications>
+          <bookmark:application name="Thunar" exec="&apos;thunar %u&apos;" modified="2024-04-09T14:50:05.982786Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Documents" added="2024-04-09T14:50:06.524047Z" modified="2024-04-09T14:50:06.524053Z" visited="2024-04-09T14:50:06.524048Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="inode/directory"/>
+        <bookmark:applications>
+          <bookmark:application name="Thunar" exec="&apos;thunar %u&apos;" modified="2024-04-09T14:50:06.524050Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Pictures" added="2024-04-09T14:50:07.773003Z" modified="2024-04-09T14:50:07.773008Z" visited="2024-04-09T14:50:07.773004Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="inode/directory"/>
+        <bookmark:applications>
+          <bookmark:application name="Thunar" exec="&apos;thunar %u&apos;" modified="2024-04-09T14:50:07.773005Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Music" added="2024-04-09T14:50:08.471975Z" modified="2024-04-09T14:50:08.471984Z" visited="2024-04-09T14:50:08.471977Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="inode/directory"/>
+        <bookmark:applications>
+          <bookmark:application name="Thunar" exec="&apos;thunar %u&apos;" modified="2024-04-09T14:50:08.471981Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads" added="2024-04-10T14:21:05.553505Z" modified="2024-04-10T14:21:05.553511Z" visited="2024-04-10T14:21:05.553506Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="inode/directory"/>
+        <bookmark:applications>
+          <bookmark:application name="Thunar" exec="&apos;thunar %u&apos;" modified="2024-04-10T14:21:05.553508Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///" added="2024-04-10T14:21:06.517643Z" modified="2024-04-10T14:21:06.517647Z" visited="2024-04-10T14:21:06.517644Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="inode/directory"/>
+        <bookmark:applications>
+          <bookmark:application name="Thunar" exec="&apos;thunar %u&apos;" modified="2024-04-10T14:21:06.517646Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads/install.sh" added="2024-04-11T23:27:10.896599Z" modified="2024-04-11T23:27:11.268538Z" visited="2024-04-11T23:27:10.896601Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-shellscript"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2024-04-11T23:27:11.268533Z" count="2"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads/qubes-windows-tools-4.1.69-1.fc37.src.rpm" added="2024-04-12T12:25:25.902887Z" modified="2024-04-12T12:25:25.902893Z" visited="2024-04-12T12:25:25.902888Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-source-rpm"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2024-04-12T12:25:25.902889Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads/0xProto.zip" added="2024-04-12T15:53:01.381831Z" modified="2024-04-12T15:53:01.381836Z" visited="2024-04-12T15:53:01.381832Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/zip"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2024-04-12T15:53:01.381833Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads/candy-icons.tar.xz" added="2024-04-12T16:26:41.721065Z" modified="2024-04-12T16:27:22.243590Z" visited="2024-04-12T16:26:41.721066Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-xz-compressed-tar"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2024-04-12T16:26:41.721073Z" count="1"/>
+          <bookmark:application name="xfce4-appearance-settings" exec="&apos;xfce4-appearance-settings %u&apos;" modified="2024-04-12T16:27:22.243586Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads/FiraCode.zip" added="2024-04-12T16:31:21.059772Z" modified="2024-04-12T16:31:21.059779Z" visited="2024-04-12T16:31:21.059774Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/zip"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2024-04-12T16:31:21.059777Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads/ventoy-1.0.97-livecd.iso" added="2024-04-13T18:59:15.466717Z" modified="2024-04-13T18:59:15.466729Z" visited="2024-04-13T18:59:15.466719Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/vnd.efi.iso"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2024-04-13T18:59:15.466723Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads/ventoy-1.0.97-linux.tar.gz" added="2024-04-13T19:04:40.775652Z" modified="2024-04-13T19:04:40.775658Z" visited="2024-04-13T19:04:40.775653Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/x-compressed-tar"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2024-04-13T19:04:40.775655Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+  <bookmark href="file:///home/user/Downloads/cru-1.5.2-src.zip" added="2024-04-13T20:45:33.371867Z" modified="2024-04-13T20:45:33.371893Z" visited="2024-04-13T20:45:33.371869Z">
+    <info>
+      <metadata owner="http://freedesktop.org">
+        <mime:mime-type type="application/zip"/>
+        <bookmark:applications>
+          <bookmark:application name="Firefox" exec="&apos;firefox %u&apos;" modified="2024-04-13T20:45:33.371874Z" count="1"/>
+        </bookmark:applications>
+      </metadata>
+    </info>
+  </bookmark>
+</xbel>

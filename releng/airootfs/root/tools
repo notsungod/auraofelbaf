@@ -1,0 +1,6 @@
+upower -i $(upower -e)
+cat /proc/meminfo
+lsblk
+lscpu
+systemd-analyze
+systemd-analze blame

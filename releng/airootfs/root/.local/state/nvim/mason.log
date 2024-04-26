@@ -1,0 +1,8 @@
+[INFO  Fri 12 Apr 2024 06:21:41 PM CEST] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:184: Executing installer for Package(name=lua-language-server) {}
+[INFO  Fri 12 Apr 2024 06:21:41 PM CEST] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:184: Executing installer for Package(name=stylua) {}
+[INFO  Fri 12 Apr 2024 06:21:41 PM CEST] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:184: Executing installer for Package(name=clangd) {}
+[INFO  Fri 12 Apr 2024 06:21:41 PM CEST] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:184: Executing installer for Package(name=clang-format) {}
+[INFO  Fri 12 Apr 2024 06:21:45 PM CEST] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:245: Installation succeeded for Package(name=lua-language-server)
+[INFO  Fri 12 Apr 2024 06:21:46 PM CEST] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:245: Installation succeeded for Package(name=stylua)
+[INFO  Fri 12 Apr 2024 06:21:49 PM CEST] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:245: Installation succeeded for Package(name=clang-format)
+[INFO  Fri 12 Apr 2024 06:21:53 PM CEST] ...e/nvim/lazy/mason.nvim/lua/mason-core/installer/init.lua:245: Installation succeeded for Package(name=clangd)

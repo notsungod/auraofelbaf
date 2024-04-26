@@ -1,0 +1,10 @@
+{"timestamp":1963824,"category":"nimbus_events","name":"enrollment","extra":{"experiment_type":"rollout","experiment":"add-an-image-to-pdf-with-alt-text-rollout","branch":"control"}}
+{"timestamp":1963842,"category":"nimbus_events","name":"enrollment","extra":{"experiment_type":"rollout","branch":"enable-csv-import","experiment":"csv-import-release-rollout"}}
+{"timestamp":1963844,"category":"nimbus_events","name":"enrollment","extra":{"experiment":"ech-roll-out","experiment_type":"rollout","branch":"rollout"}}
+{"timestamp":1963850,"category":"nimbus_events","name":"enrollment","extra":{"experiment_type":"rollout","experiment":"mozillaaccounts-toolbar-button-default-visibility-existing-user","branch":"treatment-a"}}
+{"timestamp":1963864,"category":"nimbus_events","name":"enrollment","extra":{"experiment_type":"rollout","experiment":"rollout-of-share-of-voice-for-sponsored-topsites","branch":"control"}}
+{"timestamp":1963867,"category":"nimbus_events","name":"enroll_failed","extra":{"experiment":"spocs-endpoint-rollout-release","reason":"feature-conflict"}}
+{"timestamp":1963869,"category":"nimbus_events","name":"enrollment","extra":{"experiment_type":"rollout","experiment":"upgrade-spotlight-rollout","branch":"treatment"}}
+{"timestamp":1963905,"category":"nimbus_events","name":"enrollment","extra":{"branch":"delivery","experiment":"firefox-desktop-long-term-holdback-validation-release","experiment_type":"nimbus"}}
+{"timestamp":1963913,"category":"nimbus_events","name":"enrollment","extra":{"experiment":"recommend-add-ons-staff-pick-relaunch","branch":"treatment-d","experiment_type":"nimbus"}}
+{"timestamp":1963916,"category":"nimbus_events","name":"enrollment","extra":{"experiment_type":"rollout","branch":"rollout","experiment":"phc-rollout"}}
