@@ -64,14 +64,14 @@ pacman-key --populate archlinux
 pacstrap -K /mnt base linux-hardened linux-firmware
 echo "swap         UUID=$(blkid -s UUID -o value $swap_partition)     /dev/urandom            swap,offset=2048,cipher=aes-xts-plain64,size=512" >> /mnt/etc/crypttab
 echo "/dev/mapper/swap  none   swap    defaults   0       0" >> /mnt/etc/fstab
-echo "cryptdevice=UUID=$(blkid -s UUID -o value $root_partition):recrypt root=/dev/mapper/recrypt resume=/dev/mapper/swap rw loglevel=0 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf lockdown=integrity slab_nomerge init_on_alloc=1 init_on_free=1 mce=0  mds=full,nosmt module.sig_enforce=1 oops=panic mitigations=auto,nosmt audit=1 intel_iommu=on page_alloc.shuffle=1 pti=on randomize_kstack_offset=on vsyscall=none debugfs=off ipv6.disable=1">/etc/kernel/cmdline
+echo "cryptdevice=UUID=$(blkid -s UUID -o value $root_partition):recrypt root=/dev/mapper/recrypt resume=/dev/mapper/swap rw loglevel=0 quiet lsm=landlock,lockdown,yama,integrity,apparmor,bpf lockdown=integrity slab_nomerge init_on_alloc=1 init_on_free=1 mce=0  mds=full,nosmt module.sig_enforce=1 oops=panic mitigations=auto,nosmt audit=1 intel_iommu=on page_alloc.shuffle=1 pti=on randomize_kstack_offset=on vsyscall=none debugfs=off ipv6.disable=1">/mnt/etc/kernel/cmdline
 echo "proc /proc proc nosuid,nodev,noexec,hidepid=2,gid=proc 0 0">>/mnt/etc/fstab
 echo "/dev/mapper/recrypt     /               ext4            rw,relatime     0 1">>/mnt/etc/fstab
 echo "PARTUUID=$(blkid -s PARTUUID -o value $efistub_partition)           /efi            vfat            rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro     0 2">>/mnt/etc/fstab
 
 
 #chroot
-arch-chroot /mnt
+cat << EOF | arch-chroot /mnt
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
 echo "en_US.UTF-8 UTF-8">>/etc/locale.gen
@@ -79,19 +79,20 @@ locale-gen
 echo "LANG=en_US.UTF-8">>/etc/locale.conf
 echo "KEYMAP=de-latin1">>/etc/vconsole.conf
 echo "host">>/etc/hostname
-pacman -S --noconfirm sbctl
+pacman -S --noconfirm sbctl efibootmgr
 mkinitcpio -P
 mkdir -p /efi/EFI/arch
 sbctl bundle --kernel-img /boot/vmlinuz-linux-hardened --initramfs /boot/initramfs-linux-hardened.img --save /efi/EFI/arch/arch.efi
 efibootmgr --create --disk /dev/$(lsblk -no pkname $efistub_partition) --part $(lsblk -no NAME $efistub_partition | grep -oE '[0-9]+$') --label "arch" --loader '\EFI\arch\arch.efi' --unicode
 useradd -m tokyo
-usermod -aG sudo tokyo
+usermod -aG wheel tokyo
 echo 'tokyo ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 passwd -l root
 echo "umask 0077">>/etc/profile
-pacman -S --noconfirm Hyprland neovim firefox git
+pacman -S --noconfirm hyprland neovim firefox git
 
 su tokyo
+cd /home/tokyo
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 echo ".cfg" >> .gitignore
 git clone -q --bare https://github.com/notsungod/dotfiles $HOME/.cfg
@@ -101,9 +102,7 @@ config checkout
 config config --local status.showUntrackedFiles no
 passwd
 exit
-exit
-
-
+EOF
 
 # Finish
 echo "Setup completed successfully! You can REBOOT now."
