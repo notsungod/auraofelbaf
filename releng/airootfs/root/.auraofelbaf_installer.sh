@@ -5,7 +5,7 @@
 
 # Ask the user if they want to continue
 echo "You need to connect to the internet before starting this script! Run nmtui for interactive menu & You need to setup 3 partitions. One fat32 with esp flag ~500MB; one swap partition and one root partition ext4."
-echo "Do you want to continue? (Y/n) "
+echo -n "Do you want to continue? (Y/n) "
 read answer
 if [[ "$answer" == "y" ]] || [[ -z "$answer" ]]; then
     echo "You chose to continue."
@@ -59,6 +59,8 @@ mount /dev/mapper/root /mnt
 mount --mkdir $efi_system_partition /mnt/efi
 
 #gen root
+pacman-key --init
+pacman-key --populate archlinux
 pacstrap -K /mnt base linux-hardened linux-firmware
 echo "swap         UUID=$(blkid -s UUID -o value $swap_partition)     /dev/urandom            swap,offset=2048,cipher=aes-xts-plain64,size=512" >> /mnt/etc/crypttab
 echo "/dev/mapper/swap  none   swap    defaults   0       0" >> /mnt/etc/fstab
