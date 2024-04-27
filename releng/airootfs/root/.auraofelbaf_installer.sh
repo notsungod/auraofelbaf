@@ -81,10 +81,6 @@ compare_strings() {
     fi
 }
 
-# Main script
-read -p "Enter password for user (tokyo): " pw
-read -p "Enter again: " pw2
-
 # Continuously prompt until the strings are the same
 while ! compare_strings "$pw" "$pw2"; do
     echo "Inputs dont match, repeat"
@@ -94,6 +90,8 @@ done
 
 #chroot
 arch-chroot /mnt /bin/bash -x << 'EOF'
+pacman-key --init
+pacman-key --populate archlinux
 mount $efistub_partition /efi
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
@@ -113,13 +111,10 @@ echo 'tokyo ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 passwd -l root
 echo "umask 0077">>/etc/profile
 pacman -S --noconfirm hyprland neovim firefox git
-
+passwd tokyo
+$pw
+$pw
 su -l tokyo
-pwd
-whoami
-passwd
-$pw
-$pw
 alias config='/usr/bin/git --git-dir=$home/.cfg/ --work-tree=$home'
 echo ".cfg" >> .gitignore
 git clone -q --bare https://github.com/notsungod/dotfiles $home/.cfg
