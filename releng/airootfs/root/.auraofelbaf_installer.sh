@@ -102,7 +102,7 @@ usermod -aG wheel tokyo
 echo 'tokyo ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 passwd -l root
 echo "umask 0077">>/etc/profile
-pacman -S --noconfirm hyprland neovim firefox git
+pacman -S --noconfirm hyprland neovim firefox git starship
 EOF
 read -p "Enter password for user (tokyo): " pw
 read -p "Enter again: " pw2
@@ -116,13 +116,11 @@ passwd tokyo
 $pw
 $pw
 su -l tokyo
-config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 echo ".cfg" >> .gitignore
 git clone -q --bare https://github.com/notsungod/dotfiles $HOME/.cfg
-mkdir -p .config-backup
-$config checkout 2>&1 | egrep "\s+\." | awk {'print $1'} | xargs -i{} mv {} .config-backup/{}
-$config checkout
-$config config --local status.showuntrackedfiles no
+rm .bashrc
+/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
+/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showuntrackedfiles no
 exit
 EOF
 
