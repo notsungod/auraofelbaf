@@ -41,7 +41,9 @@ compare_strings() {
     fi
 }
 read -p "Enter password for user (tokyo): " -s pw
+echo ""
 read -p "Enter again: " -s pw2
+echo ""
 while ! compare_strings "$pw" "$pw2"; do
     echo "Inputs dont match, repeat"
     read -p "Enter password for user (tokyo): " -s pw
@@ -98,6 +100,7 @@ echo "LANG=en_US.UTF-8">>/etc/locale.conf
 echo "KEYMAP=de-latin1">>/etc/vconsole.conf
 echo "host">>/etc/hostname
 pacman -S --noconfirm sbctl efibootmgr
+sed -i 's/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' "/etc/mkinitcpio.conf"
 mkinitcpio -P
 mkdir -p /efi/EFI/arch
 sbctl bundle --kernel-img /boot/vmlinuz-linux-hardened --initramfs /boot/initramfs-linux-hardened.img --save /efi/EFI/arch/arch.efi
@@ -106,8 +109,9 @@ useradd -m tokyo
 usermod -aG wheel tokyo
 echo 'tokyo ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 passwd -l root
+systemctl enable seatd
 echo "umask 0077">>/etc/profile
-pacman -S --noconfirm hyprland neovim firefox git starship
+pacman -S --noconfirm hyprland neovim firefox git starship networkmanager tmux sudo btop kitty noto-fonts-emoji ttf-fira-code sxiv glibc upower neofetch btop
 passwd tokyo
 $pw
 $pw
