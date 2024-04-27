@@ -24,7 +24,7 @@ if ping -c 1 8.8.8.8 &> /dev/null; then
 else
     echo "[ERROR] Not connected to the internet. Aborting..."
 fi
-
+#
 # Define partitions
 lsblk
 read -p "Enter EFISTUB boot partition (e.g., /dev/sda1): " efistub_partition
