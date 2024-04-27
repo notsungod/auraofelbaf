@@ -31,6 +31,22 @@ read -p "Enter EFISTUB boot partition (e.g., /dev/sda1): " efistub_partition
 read -p "Enter encrypted swap partition (e.g., /dev/sda2): " swap_partition
 read -p "Enter encrypted root partition (e.g., /dev/sda3): " root_partition
 
+compare_strings() {
+    if [ "$1" = "$2" ]; then
+        echo "Continuing..."
+        return 0
+    else
+        echo "Password dont match, please try again"
+        return 1
+    fi
+}
+read -p "Enter password for user (tokyo): " -s pw
+read -p "Enter again: " -s pw2
+while ! compare_strings "$pw" "$pw2"; do
+    echo "Inputs dont match, repeat"
+    read -p "Enter password for user (tokyo): " -s pw
+    read -p "Enter again: " -s pw2
+done
 # timedatectl
 # echo "^ Is the systemclock accurate? (Y/n)"
 # read answer
@@ -69,17 +85,6 @@ echo "proc /proc proc nosuid,nodev,noexec,hidepid=2,gid=proc 0 0">>/mnt/etc/fsta
 echo "/dev/mapper/recrypt     /               ext4            rw,relatime     0 1">>/mnt/etc/fstab
 echo "PARTUUID=$(blkid -s PARTUUID -o value $efistub_partition)           /efi            vfat            rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro     0 2">>/mnt/etc/fstab
 
-compare_strings() {
-    if [ "$1" = "$2" ]; then
-        echo "Strings are equal."
-        return 0
-    else
-        echo "Strings are not equal. Please try again."
-        return 1
-    fi
-}
-
-
 #chroot
 arch-chroot /mnt /bin/bash -x << 'EOF'
 pacman-key --init
@@ -103,15 +108,6 @@ echo 'tokyo ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 passwd -l root
 echo "umask 0077">>/etc/profile
 pacman -S --noconfirm hyprland neovim firefox git starship
-EOF
-read -p "Enter password for user (tokyo): " pw
-read -p "Enter again: " pw2
-while ! compare_strings "$pw" "$pw2"; do
-    echo "Inputs dont match, repeat"
-    read -p "Enter password for user (tokyo): " pw
-    read -p "Enter again: " pw2
-done
-arch-chroot /mnt /bin/bash -x << 'EOF'
 passwd tokyo
 $pw
 $pw
