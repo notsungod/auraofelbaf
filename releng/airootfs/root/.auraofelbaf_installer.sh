@@ -70,55 +70,36 @@ echo "/dev/mapper/recrypt     /               ext4            rw,relatime     0 
 echo "PARTUUID=$(blkid -s PARTUUID -o value $efistub_partition)           /efi            vfat            rw,relatime,fmask=0022,dmask=0022,codepage=437,iocharset=ascii,shortname=mixed,utf8,errors=remount-ro     0 2">>/mnt/etc/fstab
 
 #chroot
-arch-chroot /mnt /bin/bash -x << 'EOF'
+arch-chroot /mnt /bin/bash -c "
 pacman-key --init
 pacman-key --populate archlinux
-mount $efistub_partition /efi
 ln -sf /usr/share/zoneinfo/Europe/Berlin /etc/localtime
 hwclock --systohc
-echo "en_US.UTF-8 UTF-8">>/etc/locale.gen
+echo \"en_US.UTF-8 UTF-8\">>/etc/locale.gen
 locale-gen
-echo "LANG=en_US.UTF-8">>/etc/locale.conf
-echo "KEYMAP=de-latin1">>/etc/vconsole.conf
-echo "host">>/etc/hostname
+echo \"LANG=en_US.UTF-8\">>/etc/locale.conf
+echo \"KEYMAP=de-latin1\">>/etc/vconsole.conf
+echo \"host\">>/etc/hostname
 pacman -S --noconfirm sbctl efibootmgr
-sed -i 's/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' "/etc/mkinitcpio.conf"
-sed -i "2iecho -e '\\\033[?1c'" "/usr/lib/initcpio/hooks/encrypt"
-sed -i 's/A password is required to access the ${cryptname} volume:/Hey bro you found my laptop pls email me :)/g' "/usr/lib/initcpio/hooks/encrypt"
-sed -i 's/Enter passphrase for %s:/notsungod@cock.li       /g' "/bin/cryptsetup"
+sed -i 's/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' \"/etc/mkinitcpio.conf\"
+sed -i \"2iecho -e '\\\\\033[?1c'\" \"/usr/lib/initcpio/hooks/encrypt\"
+sed -i 's/A password is required to access the \${cryptname} volume:/Hey bro you found my laptop pls email me :)/g' \"/usr/lib/initcpio/hooks/encrypt\"
+sed -i 's/Enter passphrase for %s:/notsungod@cock.li       /g' \"/bin/cryptsetup\"
 mkinitcpio -P
 mkdir -p /efi/EFI/arch
 sbctl bundle --kernel-img /boot/vmlinuz-linux-hardened --initramfs /boot/initramfs-linux-hardened.img --save /efi/EFI/arch/arch.efi
-efibootmgr --create --disk /dev/$(lsblk -no pkname $efistub_partition) --part $(lsblk -no NAME $efistub_partition | grep -oE '[0-9]+$') --label "arch" --loader '\EFI\arch\arch.efi' --unicode
+efistub_partition=$(mount | grep -E '/efi ' | awk '{print $1}')
+efibootmgr --create --disk /dev/$(lsblk -no pkname $efistub_partition) --part $(lsblk -no NAME $efistub_partition | grep -oE '[0-9]+$') --label \"arch\" --loader '\EFI\arch\arch.efi' --unicode
 useradd -m tokyo
 usermod -aG wheel tokyo
 echo 'tokyo ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 passwd -l root
-echo "umask 0077">>/etc/profile
+echo \"umask 0077\">>/etc/profile
 pacman -S --noconfirm hyprland neovim firefox git starship networkmanager tmux sudo btop kitty noto-fonts-emoji ttf-fira-code sxiv glibc upower neofetch btop
-systemctl enable seatd
-compare_strings() {
-    if [ "$1" = "$2" ]; then
-        echo "Continuing..."
-        return 0
-    else
-        echo "Password dont match, please try again"
-        return 1
-    fi
-}
-read -p "Enter password for user (tokyo): " -s pw
-echo ""
-read -p "Enter again: " -s pw2
-echo ""
-while ! compare_strings "$pw" "$pw2"; do
-    echo "Inputs dont match, repeat"
-    read -p "Enter password for user (tokyo): " -s pw
-    read -p "Enter again: " -s pw2
-done
+echo \"Enter password for new user (tokyo): \"
 passwd tokyo
-$pw
-$pw
-su -l tokyo
+"
+arch-chroot /mnt su - tokyo << 'EOF'
 echo ".cfg" >> .gitignore
 git clone -q --bare https://github.com/notsungod/dotfiles $HOME/.cfg
 rm .bashrc
@@ -126,6 +107,5 @@ rm .bashrc
 /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showuntrackedfiles no
 exit
 EOF
-
 # Finish
 echo "Setup completed successfully! You can REBOOT now."
