@@ -98,6 +98,14 @@ git clone -q --bare https://github.com/notsungod/dotfiles $HOME/.cfg
 rm .bashrc
 /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
 /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showuntrackedfiles no
+echo -n \"Do you want to automatically start Hyprland? (Y/n)\"
+read answer
+if  [[ \"$answer\" == \"Y\" ]] || [[ \"$answer\" == \"y\" ]] || [[ -z \"$answer\" ]]; then
+    echo \"You chose to start Hyprland on startup\"
+    echo \"Hyprland\">>$HOME/.bash_profile
+else
+    echo \"Hyprland will NOT execute on startup.\"
+fi
 exit
 EOF
 # Finish
