@@ -101,10 +101,10 @@ echo "KEYMAP=de-latin1">>/etc/vconsole.conf
 echo "host">>/etc/hostname
 pacman -S --noconfirm sbctl efibootmgr
 sed -i 's/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' "/etc/mkinitcpio.conf"
-mkinitcpio -P
 sed -i "2iecho -e '\\033[?1c'" "/usr/lib/initcpio/hooks/encrypt"
 sed -i 's/A password is required to access the ${cryptname} volume:/Hey bro you found my laptop pls email me :)/g' "/usr/lib/initcpio/hooks/encrypt"
 sed -i 's/Enter passphrase for %s:/notsungod@cock.li       /g' "/bin/cryptsetup"
+mkinitcpio -P
 mkdir -p /efi/EFI/arch
 sbctl bundle --kernel-img /boot/vmlinuz-linux-hardened --initramfs /boot/initramfs-linux-hardened.img --save /efi/EFI/arch/arch.efi
 efibootmgr --create --disk /dev/$(lsblk -no pkname $efistub_partition) --part $(lsblk -no NAME $efistub_partition | grep -oE '[0-9]+$') --label "arch" --loader '\EFI\arch\arch.efi' --unicode
