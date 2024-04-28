@@ -91,6 +91,9 @@ echo \"Enter password for new user (tokyo): \"
 passwd tokyo
 echo '%wheel ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 echo 'Defaults lecture=never' | EDITOR='tee -a' visudo
+echo '[main]'>>/etc/NetworkManager/NetworkManager.conf
+echo 'plugins=keyfile'>>/etc/NetworkManager/NetworkManager.conf
+echo 'persistent=true'>>/etc/NetworkManager/NetworkManager.conf
 "
 arch-chroot /mnt su - tokyo << 'EOF'
 echo ".cfg" >> .gitignore
