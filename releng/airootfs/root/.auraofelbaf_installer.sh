@@ -30,19 +30,9 @@ lsblk
 read -p "Enter EFISTUB boot partition (e.g., /dev/sda1): " efistub_partition
 read -p "Enter encrypted swap partition (e.g., /dev/sda2): " swap_partition
 read -p "Enter encrypted root partition (e.g., /dev/sda3): " root_partition
-
 # timedatectl
-# echo "^ Is the systemclock accurate? (Y/n)"
-# read answer
-# if [[ "$answer" == "y" ]] || [[ -z "$answer" ]]; then
-#     echo "You chose to continue."
-# else
-#     echo "Aborting..."
-#     exit 1
-# fi
 
 # Setting up partitions
-
 #root
 cryptsetup -y -v luksFormat $root_partition
 cryptsetup open $root_partition root
@@ -52,11 +42,11 @@ mkfs.ext4 /dev/mapper/root
 mkfs.ext2 -L cryptswap $swap_partition 1M
 
 #boot
-mkfs.fat -F 32 $efi_system_partition
+mkfs.fat -F 32 $efistub_partition
 
 #mount
 mount /dev/mapper/root /mnt
-mount --mkdir $efi_system_partition /mnt/efi
+mount --mkdir $efistub_partition /mnt/efi
 
 #gen root
 pacman-key --init
@@ -92,12 +82,15 @@ efistub_partition=$(mount | grep -E '/efi ' | awk '{print $1}')
 efibootmgr --create --disk /dev/$(lsblk -no pkname $efistub_partition) --part $(lsblk -no NAME $efistub_partition | grep -oE '[0-9]+$') --label \"arch\" --loader '\EFI\arch\arch.efi' --unicode
 useradd -m tokyo
 usermod -aG wheel tokyo
-echo 'tokyo ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 passwd -l root
 echo \"umask 0077\">>/etc/profile
 pacman -S --noconfirm hyprland neovim firefox git starship networkmanager tmux sudo btop kitty noto-fonts-emoji ttf-fira-code sxiv glibc upower neofetch btop
+echo \"Enter ROOT password: \"
+passwd
 echo \"Enter password for new user (tokyo): \"
 passwd tokyo
+echo '%wheel ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
+echo 'Defaults lecture=never' | EDITOR='tee -a' visudo
 "
 arch-chroot /mnt su - tokyo << 'EOF'
 echo ".cfg" >> .gitignore
