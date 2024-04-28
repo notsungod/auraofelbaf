@@ -31,24 +31,6 @@ read -p "Enter EFISTUB boot partition (e.g., /dev/sda1): " efistub_partition
 read -p "Enter encrypted swap partition (e.g., /dev/sda2): " swap_partition
 read -p "Enter encrypted root partition (e.g., /dev/sda3): " root_partition
 
-compare_strings() {
-    if [ "$1" = "$2" ]; then
-        echo "Continuing..."
-        return 0
-    else
-        echo "Password dont match, please try again"
-        return 1
-    fi
-}
-read -p "Enter password for user (tokyo): " -s pw
-echo ""
-read -p "Enter again: " -s pw2
-echo ""
-while ! compare_strings "$pw" "$pw2"; do
-    echo "Inputs dont match, repeat"
-    read -p "Enter password for user (tokyo): " -s pw
-    read -p "Enter again: " -s pw2
-done
 # timedatectl
 # echo "^ Is the systemclock accurate? (Y/n)"
 # read answer
@@ -101,7 +83,7 @@ echo "KEYMAP=de-latin1">>/etc/vconsole.conf
 echo "host">>/etc/hostname
 pacman -S --noconfirm sbctl efibootmgr
 sed -i 's/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block filesystems fsck)/HOOKS=(base udev autodetect microcode modconf kms keyboard keymap consolefont block encrypt filesystems fsck)/g' "/etc/mkinitcpio.conf"
-sed -i "2iecho -e '\\033[?1c'" "/usr/lib/initcpio/hooks/encrypt"
+sed -i "2iecho -e '\\\033[?1c'" "/usr/lib/initcpio/hooks/encrypt"
 sed -i 's/A password is required to access the ${cryptname} volume:/Hey bro you found my laptop pls email me :)/g' "/usr/lib/initcpio/hooks/encrypt"
 sed -i 's/Enter passphrase for %s:/notsungod@cock.li       /g' "/bin/cryptsetup"
 mkinitcpio -P
@@ -115,6 +97,24 @@ passwd -l root
 echo "umask 0077">>/etc/profile
 pacman -S --noconfirm hyprland neovim firefox git starship networkmanager tmux sudo btop kitty noto-fonts-emoji ttf-fira-code sxiv glibc upower neofetch btop
 systemctl enable seatd
+compare_strings() {
+    if [ "$1" = "$2" ]; then
+        echo "Continuing..."
+        return 0
+    else
+        echo "Password dont match, please try again"
+        return 1
+    fi
+}
+read -p "Enter password for user (tokyo): " -s pw
+echo ""
+read -p "Enter again: " -s pw2
+echo ""
+while ! compare_strings "$pw" "$pw2"; do
+    echo "Inputs dont match, repeat"
+    read -p "Enter password for user (tokyo): " -s pw
+    read -p "Enter again: " -s pw2
+done
 passwd tokyo
 $pw
 $pw
