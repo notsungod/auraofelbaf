@@ -80,48 +80,20 @@ mkdir -p /efi/EFI/arch
 sbctl bundle --kernel-img /boot/vmlinuz-linux-hardened --initramfs /boot/initramfs-linux-hardened.img --save /efi/EFI/arch/arch.efi
 efistub_partition=$(mount | grep -E '/efi ' | awk '{print $1}')
 efibootmgr --create --disk /dev/$(lsblk -no pkname $efistub_partition) --part $(lsblk -no NAME $efistub_partition | grep -oE '[0-9]+$') --label \"arch\" --loader '\EFI\arch\arch.efi' --unicode
-useradd -m tokyo
+useradd -m user
 usermod -aG wheel tokyo
 passwd -l root
 echo \"umask 0077\">>/etc/profile
-pacman -S --noconfirm hyprland neovim firefox git starship networkmanager tmux sudo kitty noto-fonts-emoji ttf-fira-code sxiv glibc upower fastfetch btop base-devel waybar gparted gcc
-git clone https://aur.archlinux.org/yay.git
-cd yay && makepkg -si --noconfirm
-yay --version
-pip3 install pywal
-yay -S --noconfirm swww python-pywalfox
+pacman -S --noconfirm git networkmanager tmux sudo btop noto-fonts-emoji ttf-fira-code glibc upower fastfetch base-devel gcc
 echo \"Enter ROOT password: \"
 passwd
-echo \"Enter password for new user (tokyo): \"
-passwd tokyo
+echo \"Enter password for new user (user): \"
+passwd user
 echo '%wheel ALL=(ALL:ALL) ALL' | EDITOR='tee -a' visudo
 echo 'Defaults lecture=never' | EDITOR='tee -a' visudo
 echo '[main]'>>/etc/NetworkManager/NetworkManager.conf
 echo 'plugins=keyfile'>>/etc/NetworkManager/NetworkManager.conf
 echo 'persistent=true'>>/etc/NetworkManager/NetworkManager.conf
-"
-arch-chroot /mnt su - tokyo << 'EOF'
-echo ".cfg" >> .gitignore
-git clone -q --bare https://github.com/notsungod/dotfiles $HOME/.cfg
-rm .bashrc
-/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
-/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showuntrackedfiles no
-cp -rf $HOME/.config/mozilla/* $HOME/.mozilla/firefox/*default-realease*/
-$HOME/.mozilla/firefox/*default-release*/updater.sh
-git clone https://github.com/gpakosz/.tmux.git
-ln -s ".tmux/.tmux.conf" "$HOME/.config/tmux/tmux.conf"
-echo -n \"Do you want to automatically start Hyprland? (Y/n)\"
-read answer
-if  [[ \"$answer\" == \"Y\" ]] || [[ \"$answer\" == \"y\" ]] || [[ -z \"$answer\" ]]; then
-    echo \"You chose to start Hyprland on startup\"
-    echo \"Hyprland\">>$HOME/.bash_profile
-else
-    echo \"Hyprland will NOT execute on startup.\"
-fi
-exit
-EOF
-arch-chroot /mnt /bin/bash -c "
-cp -rl /home/tokyo/.config/.outsideofhome/* /
 "
 # Finish
 echo "Setup completed successfully! You can REBOOT now."

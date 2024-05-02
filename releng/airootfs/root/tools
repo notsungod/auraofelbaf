@@ -4,3 +4,5 @@ lsblk
 lscpu
 systemd-analyze
 systemd-analze blame
+
+wpa_supplicant -i wlan0 -c /etc/wpa_supplicant/eduroam.conf &
