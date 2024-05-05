@@ -85,11 +85,6 @@ usermod -aG wheel tokyo
 passwd -l root
 echo \"umask 0077\">>/etc/profile
 pacman -S --noconfirm hyprland neovim firefox git starship networkmanager tmux sudo kitty noto-fonts-emoji ttf-fira-code sxiv glibc upower fastfetch btop base-devel waybar gparted gcc
-git clone https://aur.archlinux.org/yay.git
-cd yay && makepkg -si --noconfirm
-yay --version
-pip3 install pywal
-yay -S --noconfirm swww python-pywalfox
 echo \"Enter ROOT password: \"
 passwd
 echo \"Enter password for new user (tokyo): \"
@@ -101,23 +96,21 @@ echo 'plugins=keyfile'>>/etc/NetworkManager/NetworkManager.conf
 echo 'persistent=true'>>/etc/NetworkManager/NetworkManager.conf
 "
 arch-chroot /mnt su - tokyo << 'EOF'
+git clone https://aur.archlinux.org/yay.git
+cd yay && makepkg -si --noconfirm
+cd
+rm -rf yay
+yay --version
+pip install pywal
+yay -S --noconfirm swww python-pywalfox
 echo ".cfg" >> .gitignore
 git clone -q --bare https://github.com/notsungod/dotfiles $HOME/.cfg
 rm .bashrc
 /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME checkout
 /usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME config --local status.showuntrackedfiles no
-cp -rf $HOME/.config/mozilla/* $HOME/.mozilla/firefox/*default-realease*/
-$HOME/.mozilla/firefox/*default-release*/updater.sh
 git clone https://github.com/gpakosz/.tmux.git
 ln -s ".tmux/.tmux.conf" "$HOME/.config/tmux/tmux.conf"
-echo -n \"Do you want to automatically start Hyprland? (Y/n)\"
-read answer
-if  [[ \"$answer\" == \"Y\" ]] || [[ \"$answer\" == \"y\" ]] || [[ -z \"$answer\" ]]; then
-    echo \"You chose to start Hyprland on startup\"
-    echo \"Hyprland\">>$HOME/.bash_profile
-else
-    echo \"Hyprland will NOT execute on startup.\"
-fi
+echo \"Hyprland\">>$HOME/.bash_profile
 exit
 EOF
 arch-chroot /mnt /bin/bash -c "
