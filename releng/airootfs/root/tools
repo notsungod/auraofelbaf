@@ -10,3 +10,6 @@ wpa_supplicant -i wlan0 -c /etc/wpa_supplicant/eduroam.conf &
 
 Legacy-bios:
 sudo pacman -S syslinux gptfdisk mtools
+
+Debugging:
+curl https://githubusercontent.com/notsungod/auraofelbaf/master/releng/airootfs/root/.auraofelbaf_installer.sh > installer.sh && chmod +x installer.sh
