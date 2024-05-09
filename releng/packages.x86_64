@@ -144,3 +144,5 @@ ttf-fira-code
 sxiv
 glibc
 upower
+xorg-server
+xorg-init
