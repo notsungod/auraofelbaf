@@ -181,7 +181,8 @@ fi
 
 if [ $xfce == 1 ]; then
 arch-chroot /mnt su - tokyo << 'EOF'
-echo startxfce4 >> ~/.bash_profile
+mv ~/.config/dotxfce4/ ~/.config/xfce4
+echo "[ pgrep xinit ] || startxfce4 ">> ~/.bash_profile
 EOF
 fi
 
