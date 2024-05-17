@@ -15,26 +15,35 @@ else
 fi
 
 # Specify DE
-echo -n "Choose your desired Configuraion: h=Hyprland(default) , m=minimalistic , x=xfce4"
+echo -n "Choose your desired Configuraion: h=Hyprland(default) , m=minimalistic , x=xfce4: "
 read answer
 if [[ "$answer" == "m" ]]; then
     echo "You chose to minimalistic download."
     minimalistic=1
-else if [[ "$answer" == "x" ]]; then
+    xfce=0
+    hypr=0
+fi
+if [[ "$answer" == "x" ]]; then
     echo "You chose to xfce4 download."
+    minimalistic=0
     xfce=1
+    hypr=0
 else
     echo "You chose to Hyprland download."
+    minimalistic=0
+    xfce=0
     hypr=1
 fi
 
 # Specify DE
-echo -n "Choose your desired Configuraion: iuselibreboot=encryptedboot , s=efistub(default)"
+echo -n "Choose your desired Configuraion: iuselibreboot=encryptedboot , s=efistub(default): "
 read answer
 if [[ "$answer" == "iuselibreboot" ]]; then
     echo "You chose to encrypted /boot download."
     encboot=1
+    efist=0
 else
+    encboot=0
     efist=1
     echo "You chose efistub download."
 fi
@@ -150,7 +159,7 @@ echo 'persistent=true'>>/etc/NetworkManager/NetworkManager.conf
 [ $encboot == 1 ] && chmod 000 /mnt/etc/notnothing
 if [ $xfce == 1 ];then
 arch-chroot /mnt /bin/bash -c "
-pacman -S --noconfirm xfce4
+pacman -S --noconfirm xfce4 xorg-server
 "
 fi
 
@@ -182,7 +191,7 @@ fi
 if [ $xfce == 1 ]; then
 arch-chroot /mnt su - tokyo << 'EOF'
 mv ~/.config/dotxfce4/ ~/.config/xfce4
-echo "[ pgrep xinit ] || startxfce4 ">> ~/.bash_profile
+echo "[ pgrep xinit ] || startxfce4">> ~/.bash_profile
 EOF
 fi
 
