@@ -15,11 +15,19 @@ else
 fi
 
 # Specify DE
-echo -n "Choose your desired Configuraion: h=Hyprland(default) , m=minimalistic , x=xfce4: "
+echo -n "Choose your desired Configuraion: h=Hyprland(default) , m=minimalistic , x=xfce4 , dwm=dwm : "
 read answer
 if [[ "$answer" == "m" ]]; then
     echo "You chose to minimalistic download."
     minimalistic=1
+    xfce=0
+    hypr=0
+    dwm=0
+fi
+if [[ "$answer" == "dwm" ]]; then
+    echo "You chose to dwm download."
+    dwm=1
+    minimalistic=0
     xfce=0
     hypr=0
 fi
@@ -28,17 +36,19 @@ if [[ "$answer" == "x" ]]; then
     minimalistic=0
     xfce=1
     hypr=0
+    dwm=0
 else
     echo "You chose to Hyprland download."
     minimalistic=0
     xfce=0
     hypr=1
+    dwm=0
 fi
 
-# Specify DE
-echo -n "Choose your desired Configuraion: iuselibreboot=encryptedboot , s=efistub(default): "
+# Specify boot-part
+echo -n "Choose your desired Configuraion: eb=encryptedboot , s=efistub(default): "
 read answer
-if [[ "$answer" == "iuselibreboot" ]]; then
+if [[ "$answer" == "eb" ]]; then
     echo "You chose to encrypted /boot download."
     encboot=1
     efist=0
@@ -61,7 +71,7 @@ fi
 
 # Define partitions
 lsblk
-read -p "Enter EFISTUB boot partition (e.g., /dev/sda1): " efistub_partition
+read -p "Enter boot partition (e.g., /dev/sda1): " efistub_partition
 read -p "Enter encrypted root partition (e.g., /dev/sda2): " root_partition
 # timedatectl
 
@@ -145,7 +155,7 @@ useradd -m tokyo
 usermod -aG wheel tokyo
 passwd -l root
 echo \"umask 0077\">>/etc/profile
-pacman -S --noconfirm neovim firefox git starship networkmanager tmux sudo noto-fonts-emoji ttf-fira-code sxiv glibc upower fastfetch btop base-devel gparted gcc openssh unclutter
+pacman -S --noconfirm neovim firefox git starship networkmanager tmux sudo noto-fonts-emoji ttf-fira-code ttf-font-awesome sxiv glibc upower fastfetch btop base-devel gparted gcc openssh unclutter
 echo \"Enter ROOT password: \"
 passwd
 echo \"Enter password for new user (tokyo): \"
@@ -156,12 +166,8 @@ echo '[main]'>>/etc/NetworkManager/NetworkManager.conf
 echo 'plugins=keyfile'>>/etc/NetworkManager/NetworkManager.conf
 echo 'persistent=true'>>/etc/NetworkManager/NetworkManager.conf
 "
+
 [ $encboot == 1 ] && chmod 000 /mnt/etc/notnothing
-if [ $xfce == 1 ];then
-arch-chroot /mnt /bin/bash -c "
-pacman -S --noconfirm xfce4 xorg-server
-"
-fi
 
 arch-chroot /mnt su - tokyo << 'EOF'
 git clone https://aur.archlinux.org/yay.git
@@ -190,11 +196,26 @@ fi
 
 if [ $xfce == 1 ]; then
 arch-chroot /mnt su - tokyo << 'EOF'
+pacman -S --noconfirm xfce4 xorg-server xorg-xinit
 mv ~/.config/dotxfce4/ ~/.config/xfce4
 echo "[ pgrep xinit ] || startxfce4">> ~/.bash_profile
 EOF
 fi
 
+if [ $dwm == 1 ];then
+arch-chroot /mnt /bin/bash -c "
+pacman -S --noconfirm libxft libxinerama python-pywal xwallpaper xcompmgr xorg-server xorg-xinit qutebrowser
+"
+
+arch-chroot /mnt su - tokyo << 'EOF'
+yay -S --noconfirm python-pywalfox
+echo "[ pgrep xinit ] || startx">> ~/.bash_profile
+echo "unclutter --timeout 2 &">~/.xinitrc
+echo "exec dwm">~/.xinitrc
+# git get & make
+# 
+EOF
+fi
 
 
 arch-chroot /mnt /bin/bash -c "
