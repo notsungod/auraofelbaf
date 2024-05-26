@@ -155,7 +155,7 @@ useradd -m tokyo
 usermod -aG wheel tokyo
 passwd -l root
 echo \"umask 0077\">>/etc/profile
-pacman -S --noconfirm neovim firefox git starship networkmanager tmux sudo noto-fonts-emoji ttf-fira-code ttf-font-awesome sxiv glibc upower fastfetch btop base-devel gparted gcc openssh unclutter
+pacman -S --noconfirm neovim firefox git starship networkmanager tmux sudo noto-fonts-emoji ttf-firacode-nerd ttf-font-awesome sxiv glibc upower fastfetch btop base-devel gparted gcc openssh unclutter
 echo \"Enter ROOT password: \"
 passwd
 echo \"Enter password for new user (tokyo): \"
@@ -203,6 +203,7 @@ EOF
 fi
 
 if [ $dwm == 1 ];then
+
 arch-chroot /mnt /bin/bash -c "
 pacman -S --noconfirm libxft libxinerama python-pywal xwallpaper xcompmgr xorg-server xorg-xinit qutebrowser
 "
@@ -212,8 +213,14 @@ yay -S --noconfirm python-pywalfox
 echo "[ pgrep xinit ] || startx">> ~/.bash_profile
 echo "unclutter --timeout 2 &">~/.xinitrc
 echo "exec dwm">~/.xinitrc
-# git get & make
-# 
+wal -i -q "~/Pictures/favourites/redarch.png"
+xwallpaper --zoom "~/Pictures/favourites/redarch.png"
+mkdir united/programs
+cd united/programs
+git clone https://github.com/notsungod/dwm && cd dwm && sudo make clean install && cd ..
+git clone https://github.com/notsungod/dmenu && cd dmenu && sudo make clean install && cd ..
+git clone https://github.com/notsungod/st && cd st && sudo make clean install && cd ..
+git clone https://github.com/notsungod/dwmblocks && cd dwmblocks && sudo make clean install && cd ..
 EOF
 fi
 
