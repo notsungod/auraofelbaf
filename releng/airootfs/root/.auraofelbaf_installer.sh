@@ -205,17 +205,17 @@ fi
 if [ $dwm == 1 ];then
 
 arch-chroot /mnt /bin/bash -c "
-pacman -S --noconfirm libxft libxinerama python-pywal xwallpaper xcompmgr xorg-server xorg-xinit qutebrowser
+pacman -S --noconfirm libxft libxinerama python-pywal xwallpaper xcompmgr xorg-server xorg-xinit
 "
 
 arch-chroot /mnt su - tokyo << 'EOF'
-yay -S --noconfirm python-pywalfox
-echo "[ pgrep xinit ] || startx">> ~/.bash_profile
+echo "pgrep xinit || startx">> ~/.bash_profile
 echo "unclutter --timeout 2 &">~/.xinitrc
-echo "exec dwm">~/.xinitrc
-wal -i -q "~/Pictures/favourites/redarch.png"
-xwallpaper --zoom "~/Pictures/favourites/redarch.png"
-mkdir united/programs
+echo "wal -q -i ~/Pictures/favourites/redarch.png">>~/.xinitrc
+echo ". $HOME/.cache/wal/colors.sh">>~/.xinitrc
+echo "xwallpaper --zoom $wallpaper">>~/.xinitrc
+echo "exec dwm">>~/.xinitrc
+mkdir -p united/programs
 cd united/programs
 git clone https://github.com/notsungod/dwm && cd dwm && sudo make clean install && cd ..
 git clone https://github.com/notsungod/dmenu && cd dmenu && sudo make clean install && cd ..
